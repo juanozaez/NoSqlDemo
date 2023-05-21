@@ -1,4 +1,4 @@
-package com.homelab.nosqldemo
+package com.homelab.nosqldemo.book.infrastructure
 
 import com.homelab.nosqldemo.book.domain.Book
 import com.homelab.nosqldemo.book.domain.BookRepository

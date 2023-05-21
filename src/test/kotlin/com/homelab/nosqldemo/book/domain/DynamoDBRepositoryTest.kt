@@ -1,7 +1,6 @@
-package com.homelab.nosqldemo
+package com.homelab.nosqldemo.book.domain
 
-import com.homelab.nosqldemo.book.domain.BookMother
-import com.homelab.nosqldemo.book.infrastructure.RedisRepository
+import com.homelab.nosqldemo.book.infrastructure.DynamoDBRepository
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
@@ -9,16 +8,16 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import java.time.ZonedDateTime
 
-class RedisRepositoryTest {
+class DynamoDBRepositoryTest {
 
-    private val redisRepository = RedisRepository()
+    private val dynamoDBRepository = DynamoDBRepository()
 
     @Test
     fun `save and finds a book`() {
         val book = BookMother.random()
 
-        redisRepository.save(book)
-        val foundBook = redisRepository.find(book.id)
+        dynamoDBRepository.save(book)
+        val foundBook = dynamoDBRepository.find(book.id)
 
         assertEquals(book, foundBook)
     }
@@ -26,9 +25,9 @@ class RedisRepositoryTest {
     @Test
     fun `finds all books`() {
         val books = listOf(BookMother.random())
-        books.forEach { redisRepository.save(it) }
+        books.forEach { dynamoDBRepository.save(it) }
 
-        val list = redisRepository.findAll()
+        val list = dynamoDBRepository.findAll()
 
         books shouldContainAll list
     }
@@ -36,11 +35,11 @@ class RedisRepositoryTest {
     @Test
     fun `deletes a book`() {
         val book = BookMother.random()
-        redisRepository.save(book)
+        dynamoDBRepository.save(book)
 
-        redisRepository.delete(book.id)
+        dynamoDBRepository.delete(book.id)
 
-        redisRepository.find(book.id) shouldBe null
+        dynamoDBRepository.find(book.id) shouldBe null
     }
 
     @Test
@@ -49,7 +48,7 @@ class RedisRepositoryTest {
 
         println("Start")
         println(ZonedDateTime.now())
-        books.forEach { redisRepository.save(it) }
+        books.forEach { dynamoDBRepository.save(it) }
         println("End")
         println(ZonedDateTime.now())
     }
