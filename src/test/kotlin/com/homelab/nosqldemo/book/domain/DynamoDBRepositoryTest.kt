@@ -25,7 +25,7 @@ class DynamoDBRepositoryTest {
     @Test
     fun `finds all books`() {
         val books = listOf(BookMother.random())
-        books.forEach { dynamoDBRepository.save(it) }
+        //books.forEach { dynamoDBRepository.save(it) }
 
         val list = dynamoDBRepository.findAll()
 
