@@ -1,12 +1,11 @@
-package com.homelab.nosqldemo.book.domain
+package com.homelab.nosqldemo
 
+import com.homelab.nosqldemo.book.domain.BookMother
 import com.homelab.nosqldemo.book.infrastructure.DynamoDBRepository
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.shouldBe
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
-import java.time.ZonedDateTime
 
 class DynamoDBRepositoryTest {
 
@@ -24,8 +23,8 @@ class DynamoDBRepositoryTest {
 
     @Test
     fun `finds all books`() {
-        val books = listOf(BookMother.random())
-        //books.forEach { dynamoDBRepository.save(it) }
+        val books = (1..20).map { BookMother.random() }
+        books.forEach { dynamoDBRepository.save(it) }
 
         val list = dynamoDBRepository.findAll()
 
@@ -43,13 +42,9 @@ class DynamoDBRepositoryTest {
     }
 
     @Test
-    fun `inserts 10_000 books`() {
-        val books = (1..100_000).map { BookMother.random() }
+    fun `inserts 1_000 books in DynamoDb`() {
+        val books = (1..1_000).map { BookMother.random() }
 
-        println("Start")
-        println(ZonedDateTime.now())
         books.forEach { dynamoDBRepository.save(it) }
-        println("End")
-        println(ZonedDateTime.now())
     }
 }

@@ -4,9 +4,8 @@ import com.homelab.nosqldemo.book.domain.BookMother
 import com.homelab.nosqldemo.book.infrastructure.RedisRepository
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.shouldBe
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
 import java.time.ZonedDateTime
 
 class RedisRepositoryTest {
@@ -25,7 +24,7 @@ class RedisRepositoryTest {
 
     @Test
     fun `finds all books`() {
-        val books = listOf(BookMother.random())
+        val books = (1..20).map { BookMother.random() }
         books.forEach { redisRepository.save(it) }
 
         val list = redisRepository.findAll()
@@ -44,13 +43,9 @@ class RedisRepositoryTest {
     }
 
     @Test
-    fun `inserts 10_000 books`() {
-        val books = (1..100_000).map { BookMother.random() }
+    fun `inserts 1_000 books`() {
+        val books = (1..1_000).map { BookMother.random() }
 
-        println("Start")
-        println(ZonedDateTime.now())
         books.forEach { redisRepository.save(it) }
-        println("End")
-        println(ZonedDateTime.now())
     }
 }

@@ -10,9 +10,6 @@ class RedisRepository : BookRepository {
 
     private val connection: Jedis = createRedisConnection()
 
-    fun createRedisConnection() =
-        JedisPool("localhost", 6379).resource
-
     override fun save(book: Book) {
         connection.hset(book.id.toString(), book.asMap())
     }
@@ -28,6 +25,9 @@ class RedisRepository : BookRepository {
     override fun delete(bookId: UUID) {
         connection.del(bookId.toString())
     }
+
+    private fun createRedisConnection() =
+        JedisPool("localhost", 6379).resource
 
     private fun Book.asMap() = mapOf(
         "id" to id.toString(),

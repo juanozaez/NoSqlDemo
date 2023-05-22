@@ -2,12 +2,12 @@ version: "3"
 
 services:
   redis:
-    image: ${ECR_PREFIX:-}redis:6.2
+    image: redis:7.2-rc-bullseye
     hostname: redis
     ports:
       - 6379:6379
     healthcheck:
-      test: ["CMD", "redis-cli","ping"]
+      test: [ "CMD", "redis-cli","ping" ]
 
   dynamodb:
     image: amazon/dynamodb-local:latest
@@ -21,7 +21,7 @@ services:
       - "8001:8001"
     environment:
       DYNAMO_ENDPOINT: "http://dynamodb:8000"
-      AWS_REGION: "us-west-2"
+      AWS_REGION: "local"
       AWS_ACCESS_KEY_ID: local
       AWS_SECRET_ACCESS_KEY: local
     depends_on:
