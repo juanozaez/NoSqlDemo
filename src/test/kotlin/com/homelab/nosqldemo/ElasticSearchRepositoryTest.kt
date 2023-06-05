@@ -1,29 +1,29 @@
 package com.homelab.nosqldemo
 
 import com.homelab.nosqldemo.book.domain.BookMother
-import com.homelab.nosqldemo.book.infrastructure.RedisRepository
+import com.homelab.nosqldemo.book.infrastructure.ElasticSearchRepository
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import java.time.ZonedDateTime
+import java.lang.Thread.sleep
 
-class RedisRepositoryTest {
+class ElasticSearchRepositoryTest {
 
-    private val redisRepository = RedisRepository()
+    private val repository = ElasticSearchRepository()
 
     @BeforeEach
     fun setUp() {
-        redisRepository.cleanUp()
+        repository.cleanUp()
     }
 
     @Test
     fun `save and finds a book`() {
         val book = BookMother.random()
 
-        redisRepository.save(book)
-        val foundBook = redisRepository.find(book.id)
+        repository.save(book)
+        val foundBook = repository.find(book.id)
 
         assertEquals(book, foundBook)
     }
@@ -31,9 +31,9 @@ class RedisRepositoryTest {
     @Test
     fun `finds all books`() {
         val books = (1..20).map { BookMother.random() }
-        books.forEach { redisRepository.save(it) }
+        books.forEach { repository.save(it) }
 
-        val list = redisRepository.findAll()
+        val list = repository.findAll()
 
         books shouldContainAll list
     }
@@ -41,17 +41,17 @@ class RedisRepositoryTest {
     @Test
     fun `deletes a book`() {
         val book = BookMother.random()
-        redisRepository.save(book)
+        repository.save(book)
 
-        redisRepository.delete(book.id)
+        repository.delete(book.id)
 
-        redisRepository.find(book.id) shouldBe null
+        repository.find(book.id) shouldBe null
     }
 
     @Test
     fun `inserts 1_000 books`() {
         val books = (1..1_000).map { BookMother.random() }
 
-        books.forEach { redisRepository.save(it) }
+        books.forEach { repository.save(it) }
     }
 }

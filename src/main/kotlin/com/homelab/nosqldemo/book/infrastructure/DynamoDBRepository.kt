@@ -85,4 +85,8 @@ class DynamoDBRepository : BookRepository {
             .withTableName("book")
         connection.createTable(request)
     }
+
+    fun cleanUp() {
+        kotlin.runCatching { connection.deleteTable("book") }
+    }
 }

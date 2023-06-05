@@ -26,6 +26,10 @@ class RedisRepository : BookRepository {
         connection.del(bookId.toString())
     }
 
+    fun cleanUp() {
+        connection.flushAll()
+    }
+
     private fun createRedisConnection() =
         JedisPool("localhost", 6379).resource
 

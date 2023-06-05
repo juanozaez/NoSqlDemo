@@ -5,11 +5,17 @@ import com.homelab.nosqldemo.book.infrastructure.DynamoDBRepository
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class DynamoDBRepositoryTest {
 
     private val dynamoDBRepository = DynamoDBRepository()
+
+    @BeforeEach
+    fun setUp() {
+        dynamoDBRepository.cleanUp()
+    }
 
     @Test
     fun `save and finds a book`() {
