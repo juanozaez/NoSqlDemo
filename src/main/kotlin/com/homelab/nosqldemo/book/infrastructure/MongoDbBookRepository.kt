@@ -53,18 +53,18 @@ class MongoDbBookRepository : BookRepository {
 
     private fun Book.toMongoDbBook() = MongoDbBook(id, title, author, year, genre, price)
     private fun MongoDbBook.toBook() = Book(id, title, author, year, genre, price)
+    data class MongoDbBook @BsonCreator constructor(
+        @BsonId @BsonProperty("id") val id: UUID,
+
+        @BsonProperty("title") val title: String,
+
+        @BsonProperty("author") val author: String,
+
+        @BsonProperty("year") val year: Int,
+
+        @BsonProperty("genre") val genre: String,
+
+        @BsonProperty("price") val price: Double,
+    )
 }
 
-data class MongoDbBook @BsonCreator constructor(
-    @BsonId @BsonProperty("id") val id: UUID,
-
-    @BsonProperty("title") val title: String,
-
-    @BsonProperty("author") val author: String,
-
-    @BsonProperty("year") val year: Int,
-
-    @BsonProperty("genre") val genre: String,
-
-    @BsonProperty("price") val price: Double,
-)
