@@ -35,3 +35,11 @@ services:
       - "discovery.type=single-node"
     ports:
       - 9200:9200
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data/db:/data/db
+    restart: always
