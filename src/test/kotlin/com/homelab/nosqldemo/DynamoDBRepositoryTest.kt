@@ -14,7 +14,7 @@ class DynamoDBRepositoryTest {
 
     @BeforeEach
     fun setUp() {
-        dynamoDBRepository.cleanUp()
+        //dynamoDBRepository.cleanUp()
     }
 
     @Test

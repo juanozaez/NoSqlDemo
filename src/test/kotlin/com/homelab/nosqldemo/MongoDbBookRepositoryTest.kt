@@ -14,7 +14,7 @@ class MongoDbBookRepositoryTest {
 
     @BeforeEach
     fun setUp() {
-        repository.cleanUp()
+        //repository.cleanUp()
     }
 
     @Test
