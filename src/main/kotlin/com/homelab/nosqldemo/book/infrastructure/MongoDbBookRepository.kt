@@ -11,17 +11,16 @@ import org.bson.Document
 import org.bson.UuidRepresentation
 import org.bson.codecs.configuration.CodecRegistries
 import org.bson.codecs.pojo.PojoCodecProvider
-import org.bson.codecs.pojo.annotations.BsonCreator
 import org.bson.codecs.pojo.annotations.BsonId
-import org.bson.codecs.pojo.annotations.BsonProperty
 
 class MongoDbBookRepository : BookRepository {
     private val collection = createCollection()
 
     private fun createCollection(): MongoCollection<MongoDbBook> {
+        val pojoCodecProvider = PojoCodecProvider.builder().automatic(true).build()
         val codecRegistry = CodecRegistries.fromRegistries(
             MongoClientSettings.getDefaultCodecRegistry(),
-            CodecRegistries.fromProviders(PojoCodecProvider.builder().automatic(true).build())
+            CodecRegistries.fromProviders(pojoCodecProvider)
         )
         val client = MongoClients.create(
             MongoClientSettings.builder().uuidRepresentation(UuidRepresentation.STANDARD).codecRegistry(codecRegistry)
@@ -52,19 +51,15 @@ class MongoDbBookRepository : BookRepository {
     }
 
     private fun Book.toMongoDbBook() = MongoDbBook(id, title, author, year, genre, price)
-    private fun MongoDbBook.toBook() = Book(id, title, author, year, genre, price)
-    data class MongoDbBook @BsonCreator constructor(
-        @BsonId @BsonProperty("id") val id: UUID,
-
-        @BsonProperty("title") val title: String,
-
-        @BsonProperty("author") val author: String,
-
-        @BsonProperty("year") val year: Int,
-
-        @BsonProperty("genre") val genre: String,
-
-        @BsonProperty("price") val price: Double,
-    )
+    private fun MongoDbBook.toBook() = Book(id!!, title!!, author!!, year!!, genre!!, price!!)
 }
+
+data class MongoDbBook(
+    @BsonId var id: UUID? = null,
+    var title: String? = null,
+    var author: String? = null,
+    var year: Int? = null,
+    var genre: String? = null,
+    var price: Double? = null,
+)
 
