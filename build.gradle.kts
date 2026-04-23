@@ -15,6 +15,7 @@ dependencies {
     implementation("com.amazonaws:aws-java-sdk-dynamodb:1.12.472")
     implementation("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.17.9")
     implementation("org.mongodb:mongodb-driver-sync:4.10.1")
+    implementation("com.mysql:mysql-connector-j:8.3.0")
 
     testImplementation(kotlin("test"))
     testImplementation("io.kotest:kotest-assertions-core:5.6.2")
