@@ -68,6 +68,7 @@ class ElasticSearchRepository : BookRepository {
     }
 
 
+
     override fun delete(bookId: UUID) {
         connection.delete(DeleteRequest("books", bookId.toString()), RequestOptions.DEFAULT)
     }
